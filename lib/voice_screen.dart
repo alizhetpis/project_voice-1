@@ -1,6 +1,7 @@
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:translator/translator.dart';
 
@@ -79,19 +80,48 @@ class VoiceScreenState extends State<VoiceScreen>{
           padding: EdgeInsets.symmetric(horizontal: 24,vertical: 16),
           margin: EdgeInsets.only(bottom: 150),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(text,
                 style: TextStyle(
                     fontSize: 24, color: Colors.black45, fontWeight: FontWeight.w600
                 ),
               ),
-              ElevatedButton(
-                  onPressed: (){
-                    setState(() {
-                      translate();
-                    });
-                  } ,
-                  child: Text("Translate the text"))
+              SizedBox(height: 32,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          translate();
+                        });
+                      } ,
+                      child: Text("Translate the text")),
+                  SizedBox(width: 16,),
+                  // ElevatedButton(
+                  //     onPressed: (){
+                  //       Clipboard.setData(ClipboardData(text:text)).then((_) {
+                  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  //           content: Text('Copied to clipboard'),
+                  //           duration: Duration(seconds: 1),
+                  //         ));
+                  //       });
+                  //     } ,
+                  //     child: Text("Copy")),
+                  InkWell(
+                    onTap: (){
+                      Clipboard.setData(ClipboardData(text: text));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50,
+                      width: 100,
+                      child: Text("Copy"),
+                    ),
+                  )
+                ],
+              )
             ],
           )
       ),
